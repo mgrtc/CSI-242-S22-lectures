@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1644350801113" clover="3.2.0">
+  <project timestamp="1644350801113" name="All files">
+    <metrics statements="9" coveredstatements="3" conditionals="1" coveredconditionals="0" methods="3" coveredmethods="1" elements="13" coveredelements="4" complexity="0" loc="9" ncloc="9" packages="1" files="1" classes="1"/>
+    <file name="lecture11.js" path="/Users/matthewgray/Code/CSI242/lectures/Week 6/lecture11.js">
+      <metrics statements="9" coveredstatements="3" conditionals="1" coveredconditionals="0" methods="3" coveredmethods="1"/>
+      <line num="15" count="2" type="stmt"/>
+      <line num="18" count="1" type="stmt"/>
+      <line num="21" count="0" type="stmt"/>
+      <line num="23" count="0" type="stmt"/>
+      <line num="32" count="0" type="stmt"/>
+      <line num="33" count="0" type="stmt"/>
+      <line num="34" count="0" type="stmt"/>
+      <line num="36" count="0" type="stmt"/>
+      <line num="39" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>

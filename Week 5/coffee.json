@@ -1,0 +1,12 @@
+[
+    {
+        "name": "latte",
+        "espresso": true,
+        "milk": "steamed"
+    },
+    {
+        "name": "espresso",
+        "espresso": true,
+        "milk": null  
+    }
+]
