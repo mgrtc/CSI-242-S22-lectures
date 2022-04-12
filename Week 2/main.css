@@ -17,8 +17,13 @@ body, html {
     left: 20;
 }
 
+/********************
+  Lecture 3 styles
+*********************/
 
-
+.hello{
+    background-color: purple;
+}
 
 
 

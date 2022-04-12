@@ -1,11 +1,6 @@
 
 
 
-////// Start Recording
-
-
-
-
 // window.addEventListener('load', (event) => {
 //     console.log(event);
 //     element = document.getElementById("RTC-Image");
