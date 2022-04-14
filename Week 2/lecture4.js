@@ -78,17 +78,17 @@ window.addEventListener('load', (event) => {
     // // **************
     // // HTML Injection
 
-    main = document.getElementById('main');
-    newDiv = document.createElement('div');
-    newDiv.innerText = 'Hello'; //these all conflict, which ever happens last wins
-    // newDiv.innerText = '<p>hi</p>'; //this will be text not HTML so you will se <p> on the page
-    main.append(newDiv);
-    main.append("some text");
-    main.append(newDiv); // it moves it, the specific div object can only be in one place.
+    // main = document.getElementById('main');
+    // newDiv = document.createElement('div');
+    // newDiv.innerText = 'Hello'; //these all conflict, which ever happens last wins
+    // // newDiv.innerText = '<p>hi</p>'; //this will be text not HTML so you will se <p> on the page
+    // main.append(newDiv);
+    // main.append("some text");
+    // main.append(newDiv); // it moves it, the specific div object can only be in one place.
     
-    newDiv.innerHTML = '<a href="#hello">I have a link now</a>'; //these also continue to effect the dom element after it's on the page
-    console.log(main.children);
-    main.insertBefore(newDiv, document.getElementById('about'));
+    // newDiv.innerHTML = '<a href="#hello">I have a link now</a>'; //these also continue to effect the dom element after it's on the page
+    // console.log(main.children);
+    // main.insertBefore(newDiv, document.getElementById('about'));
 
 
     // // ************
@@ -105,13 +105,13 @@ window.addEventListener('load', (event) => {
     // // **********************************
     // // Let's build a ToDo App on our page
 
-    //*************************************
-    // InsertAdjacentHTML (if we have time)
+    // //*************************************
+    // // InsertAdjacentHTML (if we have time)
 
-    main.insertAdjacentHTML('beforebegin', '<div id="beforebegin">beforebegin</div>');
-    main.insertAdjacentHTML('afterbegin', '<div id="afterbegin">afterbegin</div>');
-    main.insertAdjacentHTML('beforeend', '<div id="beforeend">beforeend</div>');
-    main.insertAdjacentHTML('afterend', '<div id="afterend">afterend</div>');
+    // main.insertAdjacentHTML('beforebegin', '<div id="beforebegin">beforebegin</div>');
+    // main.insertAdjacentHTML('afterbegin', '<div id="afterbegin">afterbegin</div>');
+    // main.insertAdjacentHTML('beforeend', '<div id="beforeend">beforeend</div>');
+    // main.insertAdjacentHTML('afterend', '<div id="afterend">afterend</div>');
 });
 
 
