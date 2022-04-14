@@ -17,16 +17,18 @@
 
 window.addEventListener('load', (event) => { //For now we'll ignore this line and think of it as a main function
 
-//     console.log(document.getElementsByTagName("div"));
-//     console.log(document.getElementsByTagName("div")[0]);
-//     console.log(document.getElementsByTagName("div").item(0).getElementsByTagName("h2"));
-//     console.log(document.getElementById("RTC-Image"));
-//     console.log(document.getElementById("RTC-Image").getElementsByTagName("div"));
-//     console.log(document.getElementsByClassName("card-project"))
-//     console.log(document.querySelectorAll("div"));
-//     console.log(document.querySelectorAll("ul#navigation li"));
-//     console.log(document.querySelectorAll("ul#navigation li:not(.float-right)"));
-//     console.log(document.querySelectorAll("ul#navigation li:not(.float-right) a"));
+    // console.log(document.getElementsByTagName("div"));
+    // console.log(document.getElementsByTagName("div").item(0));
+    // console.log(document.getElementsByTagName("div").item(0).getElementsByTagName("h2"));
+    // console.log(document.getElementById("RTC-Image"));
+    // console.log(document.getElementById("RTC-Image").getElementsByTagName("div"));
+    // console.log(document.getElementsByClassName("card-project"));
+
+    // console.log(document.querySelectorAll("div"));
+    // console.log(document.querySelectorAll("ul#navigation"));
+    // console.log(document.querySelectorAll("ul#navigation li:not(.float-right)"));
+    // console.log(document.querySelectorAll("ul#navigation li:not(.float-right) a").item(0));
+
 
 //********************************
 // Attributes and the style object
@@ -36,27 +38,24 @@ window.addEventListener('load', (event) => { //For now we'll ignore this line an
     //Attributes
     //**********
 
-    // document.getElementsByTagName("div").setAttribute("id", "hi"); // doesn't work
+    // document.getElementsByTagName("div").item(2).setAttribute("id", "hi"); // doesn't work
 
     // document.getElementsByTagName("div").item(1).setAttribute("class", "hello");
     // document.getElementsByTagName("div").item(1).classList.add("hello");
     
     // document.getElementsByTagName("h2").item(0).setAttribute("style", "color: blue");
     // document.getElementsByTagName("h2").item(0).setAttribute("style", "background-color: green");
-
+    
     // document.getElementsByTagName("h2").style.color = "blue"; // doesn't work
     // console.log(document.getElementsByTagName("h2"), document.getElementsByTagName("h2").item(0).style)
     // document.getElementsByTagName("h2").item(0).style.color = "blue";
 
     // var h2s = document.getElementsByTagName("h2");
-    // for(i = 0; i < h2s.length; i++){
+    // for(var i = 0; i < h2s.length; i++){
     //     h2s[i].style.color = "blue";
     // }
 
-    // [...document.getElementsByTagName("h2")].forEach(element => {
-    //     element.style.color = "green"; 
-    //     element.style.color = "blue"
-    // }); //three advanced concepts
+    // [...document.getElementsByTagName("h2")].forEach(element => {element.style.color = "blue"}); //three advanced concepts
 
     // [...document.getElementsByTagName("div")].forEach(element => element.setAttribute("class","")); 
     //     ////trashes all class based css on divs
@@ -69,33 +68,35 @@ window.addEventListener('load', (event) => { //For now we'll ignore this line an
 
 //     console.log(event);
 //     element = document.getElementById("RTC-Image");
-//     function myFunction(event){
-//         const style = getComputedStyle(event.path[0]);
-//         event.path[0].setAttribute("previous", style.color);
-//         event.path[0].style.color="blue"
-//         console.log("hello", event.path[0])
-//     }; 
+    function myFunction(event){
+        console.log(event);
+        const style = getComputedStyle(event.target);
+        console.log(style.color)
+        event.target.setAttribute("previous", style.color);
+        event.target.style.color="blue";
+        // console.log("hello", event.path[0])
+    }; 
 //     function mySecondFunction(event){
 //         console.log("sup", event)
 //     }; 
-//     function myThirdFunction(event){
-//         const oldColor = event.path[0].getAttribute("previous")
-//         console.log("yoooooo!", event)
-//         event.path[0].style.color= oldColor;
-//     }; 
+    function myThirdFunction(event){
+        const oldColor = event.target.getAttribute("previous")
+        console.log("yoooooo!", event)
+        event.target.style.color= "";
+    }; 
     // function myFourthFunction(event){
     //     console.log("clicked", event.path[0])
     //     // event.path[0].setAttribute("hidden", "true")
     // };
-    // document.addEventListener("mouseover", myFunction);
+    document.addEventListener("mouseover", myFunction);
     // element.addEventListener("click", mySecondFunction);
-    // document.addEventListener("mouseout", myThirdFunction);
+    document.addEventListener("mouseout", myThirdFunction);
     // document.addEventListener("click",myFourthFunction)
     // element.removeEventListener("mouseout", myThirdFunction);
     // document.addEventListener('keydown', logKey);
 
-    // function logKey(e) {
-    //   console.log(e.code);
+    // function logKey(taco) {
+    //   console.log(taco);
     // }
     // function addGlobalEventListener(type, selector, callback){
     //     document.addEventListener(type, e => {

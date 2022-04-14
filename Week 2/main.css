@@ -85,7 +85,7 @@ float: left;
     float: right !important;
 }
 
-#navigation>li  a {
+#navigation>li a {
 display: block;
 color: white;
 text-align: center;
