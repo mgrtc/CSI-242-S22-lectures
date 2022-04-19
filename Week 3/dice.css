@@ -1,0 +1,11 @@
+.die{
+    padding: 25px;
+    background: tomato;
+    width: 50px;
+    height: 50px;
+    border-radius: 10%;
+    font-size: 50px;
+    text-align: center;
+    color: white;
+    margin: 2px;
+}
