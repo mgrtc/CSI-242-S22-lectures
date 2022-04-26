@@ -91,13 +91,13 @@
 
 window.addEventListener("load", function(event){
     //[This code was taken from lecture4.js begin]
-    // function addGlobalEventListener(type, selector, func){
-    //     document.addEventListener(type, (event) => {
-    //         if (event.target.matches(selector)){
-    //             func(event)
-    //         }
-    //     })
-    // }
+    function addGlobalEventListener(type, selector, func){
+        document.addEventListener(type, (event) => {
+            if (event.target.matches(selector)){
+                func(event)
+            }
+        })
+    }
     //[This code was taken from lecture4.js end]
 
 //     //Initialize State
@@ -124,7 +124,10 @@ window.addEventListener("load", function(event){
 // //         //When the State is changed -> update display
 //         display.innerText = currentNum;
     });
-    
+
+    addGlobalEventListener("click", ".num-button", function(event){
+        handleNumber(event.target)
+    })    
 });
 // //*************************
 // //Tiny Calculator Functions
