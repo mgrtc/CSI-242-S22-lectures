@@ -19,32 +19,32 @@
 // inside the block in which they are declared
 // And inside any blocks nested inside that block
 
-{
-    let i = 1;
-    {
-        console.log(i);
-        i = 2;
-        console.log(i);
-    }
-}
+// {
+//     let i = 1;
+//     {
+//         console.log(i);
+//         i = 2;
+//         console.log(i);
+//     }
+// }
 
-// But they cannot be found outside their block
-console.log(i); // error
+// // But they cannot be found outside their block
+// console.log(i); // error
 
-// i = 2 here is an assignment. We talked a bit yesterday and said
-// that an untagged declaration of a variable is global. That is still
-// true, but only when no variables of that name exist between the 
-// assignment/declaration and the global frame.
+// // i = 2 here is an assignment. We talked a bit yesterday and said
+// // that an untagged declaration of a variable is global. That is still
+// // true, but only when no variables of that name exist between the 
+// // assignment/declaration and the global frame.
 
-{
-    let local = 1
-    {
-        local = 2;
-        global = 2;
-    }
-}
-console.log(local); // error
-console.log(global); // succeeds
+// {
+//     let local = 1
+//     {
+//         local = 2;
+//         global = 2;
+//     }
+// }
+// console.log(local); // error
+// console.log(global); // succeeds
 
 
 // When a variable is referenced or assigned the variable that 
@@ -53,18 +53,18 @@ console.log(global); // succeeds
 // then check the code block that wraps the code block we are in.
 // Then we check the code block that wraps that block and so on.
 
-{
-    let i = 0;
-    {
-        let i = 1;
-        {
-            console.log("1",i);
-            i = 2;
-        }
-        console.log("2",i);
-    }
-    console.log("3",i);
-}
+// {
+//     let i = 0;
+//     {
+//         let i = 1;
+//         {
+//             console.log("1",i);
+//             i = 2;
+//         }
+//         console.log("2",i);
+//     }
+//     console.log("3",i);
+// }
 
 // If we make it all the way to global without finding anything
 // then we create a new global variable.
@@ -97,14 +97,14 @@ console.log(global); // succeeds
 // }
 // console.log(k); // succeeds 
 
-// var k here is not limited to it's block and because it's block is in global var k is global.
+// // var k here is not limited to it's block and because it's block is in global var k is global.
 
-var global = 0;
-function example(){
-    var inner = 1;
-    console.log(global);
-}
-example();
+// var global = 0;
+// function example(){
+//     var inner = 1;
+//     console.log(global);
+// }
+// example();
 // console.log(inner); // fails
 
 // Here var inner is restricted to example and cannot be accessed outside
@@ -114,58 +114,58 @@ example();
 
 //Not only is it reference-able it's also editable
 
-var global = 0;
-function example(){
-    global = 1;
-}
-example();
-console.log(global);
+// var global = 0;
+// function example(){
+//     global = 1;
+// }
+// example();
+// console.log(global);
 
 // The rules for which variable is referenced / edited work a lot like the 
 // the rules for let with blocks. First we start in the local function, then 
 // we go looking in the function where our inner function was defined, then 
 // in the function where that function was defined and so on.
 
-var i = 0;
-function outer(){
-    var i = 1;
-    function inner(){
-        i = 2;
-    }
-    console.log("1",i);
-    inner();
-    console.log("2",i);
-}
-outer();
-console.log("3",i);
+// var i = 0;
+// function outer(){
+//     var i = 1;
+//     function inner(){
+//         i = 2;
+//     }
+//     console.log("1",i);
+//     inner();
+//     console.log("2",i);
+// }
+// outer();
+// console.log("3",i);
 
 // Where this gets a bit confusing and quite spicy is that functions aren't always called from
 // the scope they are defined. When looking at blocks it's always immediately visually clear 
 // what your path to global is, when looking through function frames it's often much less clear.
 
-function definer(input){
-    var print = input;
-    function defined(){
-        console.log(print);
-    }
-    return defined;
-}
-print3 = definer(3);
-print3();
+// function definer(input){
+//     var print = input;
+//     function defined(){
+//         console.log(print);
+//     }
+//     return defined;
+// }
+// print3 = definer(3);
+// print3();
 
-// What makes this even worse is that your parent frame is the specific function call you were defined in
+// // What makes this even worse is that your parent frame is the specific function call you were defined in
 
-function definer(input){
-    var print = input;
-    function defined(){
-        console.log(print);
-    }
-    return defined;
-}
-print3 = definer(3);
-print5 = definer(5);
-print3();
-print5();
+// function definer(input){
+//     var print = input;
+//     function defined(){
+//         console.log(print);
+//     }
+//     return defined;
+// }
+// print3 = definer(3);
+// print5 = definer(5);
+// print3();
+// print5();
 
 ////**********************************************************************************************
 ////*********************************************************************************************
@@ -184,17 +184,17 @@ print5();
 // In the previous example we locked away print, and 
 // now it can't be messed with only console.log-ed.
 
-function closure(initial){
-    var hiddenState = initial;
-    function addToA(num){
-        hiddenState += num;
-        return hiddenState;
-    }
-    return addToA;
-}
-addToVal = closure(0);
-console.log(addToVal(1));
-console.log(addToVal(1));
+// function closure(initial){
+//     var hiddenState = initial;
+//     function addToA(num){
+//         hiddenState += num;
+//         return hiddenState;
+//     }
+//     return addToA;
+// }
+// addToVal = closure(0);
+// console.log(addToVal(1));
+// console.log(addToVal(1));
 
 
 ////*********************************************
