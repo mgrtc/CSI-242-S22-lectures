@@ -3,6 +3,8 @@
 //// Lecture  8: Scope, Closures, More Scope
 ////**********************************************************************************************
 ////**********************************************************************************************
+//// JS is what is called a "lexically" scoped language
+
 
 ////*****************************
 //// Basic Scope Review: decelerations
@@ -10,112 +12,197 @@
 
 
 ////*****************************
-//// let: Block Scoped, dynamic
+//// let: Block Scoped, editable
 ////*****************************
-// {
-//     let i = 5
-//     {
-//     console.log(i)
-//     }
-//     i = 6
-// }
-// console.log(i) // fails
+
+// block scoped variables are findable and assignable 
+// inside the block in which they are declared
+// And inside any blocks nested inside that block
+
+{
+    let i = 1;
+    {
+        console.log(i);
+        i = 2;
+        console.log(i);
+    }
+}
+
+// But they cannot be found outside their block
+console.log(i); // error
+
+// i = 2 here is an assignment. We talked a bit yesterday and said
+// that an untagged declaration of a variable is global. That is still
+// true, but only when no variables of that name exist between the 
+// assignment/declaration and the global frame.
+
+{
+    let local = 1
+    {
+        local = 2;
+        global = 2;
+    }
+}
+console.log(local); // error
+console.log(global); // succeeds
 
 
+// When a variable is referenced or assigned the variable that 
+// is changed is the "closest" variable with the given name.
+// We first check the code block we are in for a local variable, 
+// then check the code block that wraps the code block we are in.
+// Then we check the code block that wraps that block and so on.
+
+{
+    let i = 0;
+    {
+        let i = 1;
+        {
+            console.log("1",i);
+            i = 2;
+        }
+        console.log("2",i);
+    }
+    console.log("3",i);
+}
+
+// If we make it all the way to global without finding anything
+// then we create a new global variable.
+
 ////*****************************
-//// const: Block Scoped, static
+//// const: Block Scoped, fixed
 ////*****************************
+
+// const works the same way as let except you cannot change it's value.
+
 // {
-//     const j = 5
-//     console.log(j)
-//     // j = 6 // fails
+//     const j = 5;
+//     console.log(j);
+//     // j = 6; // fails
 // }
-// console.log(j) // fails
+// console.log(j); // fails
+
 
 ////*******************************
-//// var: function scoped, dynamic
+//// var: function scoped, editable
 ////*******************************
+// This is where we will spend the majority of today's class and will be 
+// done in large part using the visualizer.
+
+// vars are not limited to their code block, instead they are limited to their function
+// and to any functions that are defined in their function.
+
 // {
-//     var k = 5
+//     var global = 0;
 // }
-// console.log(k) // succeeds 
+// console.log(k); // succeeds 
 
-// function example(){
-//     var k = 5
-// }
-// example()
-// console.log(k) // fails
+// var k here is not limited to it's block and because it's block is in global var k is global.
 
-//Quick note: all function inputs are basically vars
+var global = 0;
+function example(){
+    var inner = 1;
+    console.log(global);
+}
+example();
+// console.log(inner); // fails
 
-////**********************************
-//// blank : global(?) scoped, dynamic
-////**********************************
+// Here var inner is restricted to example and cannot be accessed outside
+// however var global is reference-able from inside of example because
+// example was defined in the default/window/global frame, where var global 
+// was also defined. 
+
+//Not only is it reference-able it's also editable
+
+var global = 0;
+function example(){
+    global = 1;
+}
+example();
+console.log(global);
+
+// The rules for which variable is referenced / edited work a lot like the 
+// the rules for let with blocks. First we start in the local function, then 
+// we go looking in the function where our inner function was defined, then 
+// in the function where that function was defined and so on.
+
+var i = 0;
+function outer(){
+    var i = 1;
+    function inner(){
+        i = 2;
+    }
+    console.log("1",i);
+    inner();
+    console.log("2",i);
+}
+outer();
+console.log("3",i);
+
+// Where this gets a bit confusing and quite spicy is that functions aren't always called from
+// the scope they are defined. When looking at blocks it's always immediately visually clear 
+// what your path to global is, when looking through function frames it's often much less clear.
+
+function definer(input){
+    var print = input;
+    function defined(){
+        console.log(print);
+    }
+    return defined;
+}
+print3 = definer(3);
+print3();
+
+// What makes this even worse is that your parent frame is the specific function call you were defined in
+
+function definer(input){
+    var print = input;
+    function defined(){
+        console.log(print);
+    }
+    return defined;
+}
+print3 = definer(3);
+print5 = definer(5);
+print3();
+print5();
 
 ////**********************************************************************************************
 ////*********************************************************************************************
-//// Reminder: give them the passcode: Hint Thales
+//// Reminder: give them the passcode: Hint Empedocles
 ////**********************************************************************************************
 ////**********************************************************************************************
 
-var k = 7
-{
-    function getLength(myName){
-        var cart = input.cart
-        myName = "Matty"
-        console.log(myName)
-        // a = 5
+////**********
+//// Closures!
+////**********
+
+// We've actually already done a closure. 
+// What a closure is is locking away a variable 
+// in such a way that you can only interact with it 
+// through specifically defined functions.
+// In the previous example we locked away print, and 
+// now it can't be messed with only console.log-ed.
+
+function closure(initial){
+    var hiddenState = initial;
+    function addToA(num){
+        hiddenState += num;
+        return hiddenState;
     }
+    return addToA;
 }
-cart = {ipod: {price: 5}}
-myName = "Matthew"
-getLength(myName)
-console.log(myName)
-
-// This here is spooky we do not like this.
-
-// let x = 5
-// let y = 5
-// function example1(){
-//     let x = 6
-//     function example2(){
-//         x = 7
-//         y = 7
-//     }
-//     console.log(x,y)
-//     return example2
-// }
-// example2 = example1()
-// example2()
-// console.log(x,y)
-
-////***************************************************************
-//// blank : "function definitions frame hierarchy" scoped, dynamic
-////***************************************************************
-
-// What the heck does that mean????
-// We're gonna have to white board this one folks.
-// (Whiteboard about example1 & example2 code above)
-
-// The short version is that when you leave the kind of deceleration 
-// blank it goes looking for a variable of that same name to pull in.
-// It will first check the place where the function was defined to see
-// if a variable of the same name is there, if not it will look at the 
-// place that function was defined, and on and on until it hits the 
-// global frame. If it gets to the global frame and still doesn't find
-// a variable of that name it will create a global variable of that name.
-
-// This is also exactly the same path references take when looking to 
-// resolve. Though with references if no reference exists they give up
-// and error out instead of creating a global variable.
+addToVal = closure(0);
+console.log(addToVal(1));
+console.log(addToVal(1));
 
 
 ////*********************************************
 //// window. : global scoped (basically), dynamic
 ////*********************************************
 
-// let x = 5
-// let y = 5
+// var x = 5
+// var y = 5
 // function example1(){
 //     var x = 6
 //     function example2(){
