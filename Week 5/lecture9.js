@@ -1,6 +1,6 @@
 ////**********************************************************************************************
 ////*********************************************************************************************
-//// Lecture  9: More Scope, Closures, and maybe Iterator functions
+//// Lecture  9: More Scope and Closures
 ////**********************************************************************************************
 ////**********************************************************************************************
 
@@ -10,131 +10,192 @@
 // Review Basics
 ////************
 
-// //For each of these console.log's what will happen when they are called?
-// x = 0;
-// y = 0;
-// z = 0;
-// a = ()=>{
-//     // console.log(x,y,z)
-//     var x = "a: wrong number who dis"
-//     y = "a: hewwo"
-//     b = ()=>{
-//         // console.log(x,y,z)
-//         let x = "b: wassup man"
-//         y = "b: hello"
-//         var z = "b: howdy"
-//         c = ()=>{
-//             x = "c: wassup"
-//             // console.log(x,y,z)
-//             var y = "c: hey"
-//             d = ()=>{
-//                 x = "d: sup"
-//                 console.log(x,y,z)
-//             }
-//             d()
-//         }
-//         c()
-//         // console.log(x)
-//     }
-//     b()
-// }
-// a()
-// b()
+//**********************
+// Let and block scoping
+//**********************
 
-// //********************Challenge************************
-//What gets console.log'd out here and why.
-// var a = 1
-// function example1(){
-//     {
-//         let a = 2
-//         function example2(){
-//             console.log(a);
-//             a = 3
-//         }
-//         function example3(){
-//             console.log(a)
-//         }
-//     }
-//     function example4(){
-//         var a = 4
-//         example2()
-//         example3()
-//         console.log(a)
-//     }
-//     a = 5
-//     example4()
-// }
-
-// console.log(a)
-// example1()
-// console.log(a)
-
-
-////*********
-//// Closures
-////*********
 // {
-//     let x = "hello" //show what happens when you change to let
-//     var sayHello = function(){
-//         console.log(x)
+//     let blockScoped = 1;
+//     console.log(1,blockScoped);
+//     {             
+//         console.log(2,blockScoped);          
+//         blockScoped = 2; 
+//         console.log(3,blockScoped);
+//         { 
+//             console.log(4,blockScoped);
+//             let blockScoped = 3;
+//             console.log(5,blockScoped);
+//             { 
+//                 console.log(6,blockScoped);
+//                 blockScoped = 4; 
+//                 console.log(7,blockScoped);
+//             } 
+//             console.log(8,blockScoped); 
+//         } 
+//         console.log(9,blockScoped); 
 //     }
+//     console.log(10,blockScoped);
 // }
+// console.log(11,blockScoped);
 
-// sayHello()
-// console.log(x)
+//*************************
+// Var and function scoping
+//*************************
 
-var count = function(){
-    var counter = 0
-    count = function(){
-        return counter += 1
-    }
-    return counter
-}
-console.log(count())
-console.log(count())
-console.log(count())
-console.log(count())
-
-
-count = function(){
-    console.log(counter)
-}
-
-
-{
-    let counter = 0
-    var count = ()=>{
-        counter +=1
-        return counter
-    }
-}
-
-////***************************
-//// Map, Reduce, Filter, Every
-////***************************
-// const numbers = [10, 5, 2, 1];
-// function myMapper(num) {
-//     return num * 10;
+// var functionScoped = 1;
+// console.log(1, functionScoped);
+// function outer(){
+//     console.log(2, functionScoped);
+//     functionScoped = 2;
+//     console.log(3, functionScoped);
+//     function middle(){
+//         console.log(4, functionScoped); //undefined instead of error
+//         var functionScoped = 3;
+//         console.log(5, functionScoped);
+//         function inner(){
+//             console.log(6, functionScoped);
+//              functionScoped = 4;
+//              console.log(7, functionScoped);
+//         }
+//         inner();
+//         console.log(8, functionScoped);
+//     }
+//     middle();
+//     console.log(9, functionScoped);
 // }
-// console.log(numbers.map(myMapper))
+// outer();
+// console.log(10, functionScoped);
 
-// function myReducer(total, num) {
-//     // console.log("t,n:",total, num)
-//     return total - num;
+// //********************************************************
+// // functions wrapping frame is the frame it was defined in
+// //********************************************************
+
+// // brief aside window.variableName is the global variableName
+
+// var functionScoped = 1;
+// console.log(1, functionScoped);
+// function outer(){
+//     console.log(2, functionScoped);
+//     functionScoped = 2;
+//     console.log(3, functionScoped);
+//     function middle(){
+//         console.log(4, functionScoped); //undefined instead of error
+//         var functionScoped = 3;
+//         console.log(5, functionScoped);
+//         function inner(){
+//             console.log(6, functionScoped);
+//              functionScoped = 4;
+//              console.log(7, functionScoped);
+//         }
+//         window.inner = inner;
+//         console.log(8, functionScoped);
+//     }
+//     window.middle = middle;
+//     console.log(9, functionScoped);
 // }
+// outer();
+// middle();
+// inner();
+// console.log(10, functionScoped);
 
-// console.log(numbers.reduce(myReducer))
 
-// function myFilter(num){
-//     return num >= 3;
+// //****************************************
+// // Give Passcode, hint Sun
+// //****************************************
+
+// //********************************
+// // Functions called multiple times
+// //********************************
+
+// var count = 0;
+// function increaseCount(){
+//     var update = count + 1;
+//     count = update;
 // }
+// increaseCount();
+// increaseCount();
 
-// console.log(numbers.filter(myFilter))
+// //Each increaseCount here has a frame, and that frame has an update variable.
 
-// console.log(numbers.every(myFilter))
+// //*********
+// // Closure
+// //*********
 
-// function myEvery(num){
-//     return num >= 0;
+// // the wrapping frame for an inner function is not just the wrapping function it was defined in
+// // it is the specific call of that wrapping function where the specific inner function was defined
+
+// // function numberWrapper(n){
+// //     var num = n;
+// //     function logNum(){
+// //         console.log(num);
+// //     }
+// //     return logNum;
+// // }
+// // log1 = numberWrapper(1);
+// // log2 = numberWrapper(2);
+// // log1();
+// // log2();
+// // log2();
+
+// // For the visualizer
+// // function numberWrapper(n){
+// //     var num = n;
+// //     function logNum(){
+// //         console.log(num);
+// //     }
+// //     return logNum;
+// // }
+// // log1 = await numberWrapper(1);
+// // log2 = await numberWrapper(2);
+// // await log1();
+// // await log2();
+// // await log2();
+
+// // This means we can lock away data inside a wrapping function frame that is only 
+// // intractable with via the inner functions aka methods that wrapping function defines
+// // i.e. we can create private variable/attributes and even private methods
+
+// function makeCounter(){
+//     var count = 0;
+//     function counter(){
+//         count = count + 1;
+//         return count;
+//     }
+//     return counter;
 // }
+// counter1 = makeCounter();
+// counter2 = makeCounter();
+// console.log(counter1());
+// console.log(counter1());
+// console.log(counter1());
+// console.log(counter2());
+// console.log(counter2());
+// console.log(counter2());
 
-// console.log(numbers.every(myEvery))
+// //For visualizer
+
+// function makeCounter(){
+//     var count = 0;
+//     function counter(){
+//         count = count + 1;
+//         return count;
+//     }
+//     return counter;
+// }
+// counter1 = await makeCounter();
+// counter2 = await makeCounter();
+// logThis= await counter1();
+// console.log(logThis);
+// logThis= await counter1();
+// console.log(logThis);
+// logThis= await counter1();
+// console.log(logThis);
+// logThis= await counter2();
+// console.log(logThis);
+// logThis= await counter2();
+// console.log(logThis);
+// logThis= await counter2();
+// console.log(logThis);
+
+
+// Live code an object function together could be cartesian points
