@@ -7,6 +7,8 @@
 //************************
 // initializing the canvas
 
+console.log("hi");
+
 //********
 // Drawing
 //********
