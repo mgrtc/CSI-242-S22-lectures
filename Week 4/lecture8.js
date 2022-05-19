@@ -28,7 +28,7 @@
 //     }
 // }
 
-// // But they cannot be found outside their block
+// // // But they cannot be found outside their block
 // console.log(i); // error
 
 // // i = 2 here is an assignment. We talked a bit yesterday and said
@@ -37,13 +37,14 @@
 // // assignment/declaration and the global frame.
 
 // {
-//     let local = 1
+//     let local = 1;
+//     let global;
 //     {
 //         local = 2;
 //         global = 2;
 //     }
 // }
-// console.log(local); // error
+// // console.log(local); // error
 // console.log(global); // succeeds
 
 
@@ -58,13 +59,16 @@
 //     {
 //         let i = 1;
 //         {
+//             let i = 0;
 //             console.log("1",i);
 //             i = 2;
+//             global = 3;
 //         }
 //         console.log("2",i);
 //     }
 //     console.log("3",i);
 // }
+// console.log(global);
 
 // If we make it all the way to global without finding anything
 // then we create a new global variable.
@@ -77,7 +81,16 @@
 
 // {
 //     const j = 5;
-//     console.log(j);
+//     // console.log(j);
+//     {
+//         const j = 3;
+//         {
+//             let j = 0;
+//             j = 2;
+//             console.log(j);
+//         }
+//         j = 3;
+//     }
 //     // j = 6; // fails
 // }
 // console.log(j); // fails
@@ -102,10 +115,13 @@
 // var global = 0;
 // function example(){
 //     var inner = 1;
+//     var global = 2;
 //     console.log(global);
 // }
 // example();
+// console.log(global);
 // console.log(inner); // fails
+
 
 // Here var inner is restricted to example and cannot be accessed outside
 // however var global is reference-able from inside of example because
@@ -128,7 +144,7 @@
 
 // var i = 0;
 // function outer(){
-//     var i = 1;
+//     i = 1;
 //     function inner(){
 //         i = 2;
 //     }
@@ -153,23 +169,26 @@
 // print3 = definer(3);
 // print3();
 
+//Error in Sandbox
+
 // // What makes this even worse is that your parent frame is the specific function call you were defined in
 
-// function definer(input){
-//     var print = input;
-//     function defined(){
-//         console.log(print);
-//     }
-//     return defined;
-// }
-// print3 = definer(3);
-// print5 = definer(5);
-// print3();
-// print5();
+function definer(input){
+    var printS = input;
+    function printer(){
+        console.log(printS);
+    }
+    return printer;
+}
+print3 = definer(3);
+print5 = definer(5);
+// console.log(printS); //error
+print3();
+print5();
 
 ////**********************************************************************************************
 ////*********************************************************************************************
-//// Reminder: give them the passcode: Hint Empedocles
+//// Reminder: give them the passcode: Strife
 ////**********************************************************************************************
 ////**********************************************************************************************
 

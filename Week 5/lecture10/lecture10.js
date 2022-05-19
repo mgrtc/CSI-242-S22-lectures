@@ -16,13 +16,13 @@ var c = canvas.getContext('2d');
 console.log(c);
 
 
-c.fillStyle = "rgba(255, 0, 0, 0.5)"
-//// c.fillRect(x, y, width, height)
-c.fillRect(100, 100, 100, 150);
-c.fillStyle = "rgba(255, 0, 255, 0.5)"
-c.fillRect(100, 500, 100, 100);
-c.fillStyle = "rgba(0, 255, 0, 0.5)"
-c.fillRect(200, 300, 100, 100);
+// c.fillStyle = "rgba(255, 0, 0, 0.5)"
+// //// c.fillRect(x, y, width, height)
+// c.fillRect(100, 100, 100, 150);
+// c.fillStyle = "rgba(255, 0, 255, 0.5)"
+// c.fillRect(100, 500, 100, 100);
+// c.fillStyle = "rgba(0, 255, 0, 0.5)"
+// c.fillRect(200, 300, 100, 100);
 
 
 //********
@@ -251,108 +251,108 @@ c.fillRect(200, 300, 100, 100);
 
 //Making this interactive using normal event listener stuff => update
 
-// var mouse = {
-//     x: null,
-//     y: null,
-// }
+var mouse = {
+    x: null,
+    y: null,
+}
 
-// function Circle(x,y,r,dx,dy, color){
-//     this.x = x;
-//     this.y = y;
-//     this.dx = dx;
-//     this.dy = dy;
-//     this.r = r;
-//     this.minR = r;
-//     this.color = color;
-//     this.draw = function(){
-//         c.beginPath();
-//         c.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-//         c.fillStyle = this.color;
-//         c.fill();
+function Circle(x,y,r,dx,dy, color){
+    this.x = x;
+    this.y = y;
+    this.dx = dx;
+    this.dy = dy;
+    this.r = r;
+    this.minR = r;
+    this.color = color;
+    this.draw = function(){
+        c.beginPath();
+        c.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+        c.fillStyle = this.color;
+        c.fill();
 
-//     }
-//     this.update = function(){
-//         if(this.x + this.r >= window.innerWidth || this.x <= this.r){
-//             // this.dx = -this.dx;
-//             if(this.x <= this.r){
-//                 this.x = this.r+1;
-//                 this.dx = Math.abs(this.dx)
-//             }
-//             if(this.x + this.r >= window.innerWidth){
-//                 this.x = window.innerWidth - this.r - 1;
-//                 this.dx = - Math.abs(this.dx)
-//             }
-//         }
-//         this.x = this.x+this.dx;
+    }
+    this.update = function(){
+        if(this.x + this.r >= window.innerWidth || this.x <= this.r){
+            // this.dx = -this.dx;
+            if(this.x <= this.r){
+                this.x = this.r+1;
+                this.dx = Math.abs(this.dx)
+            }
+            if(this.x + this.r >= window.innerWidth){
+                this.x = window.innerWidth - this.r - 1;
+                this.dx = - Math.abs(this.dx)
+            }
+        }
+        this.x = this.x+this.dx;
 
-//         if(this.y + r >= window.innerHeight || this.y <= this.r){
-//             // this.dy = -this.dy;
-//             if(this.y <= this.r){
-//                 this.y = this.r+1;
-//                 this.dy = Math.abs(this.dy)
-//             }
-//             if(this.y + this.r >= window.innerHeight){
-//                 this.y = window.innerHeight - this.r - 1;
-//                 this.dy = - Math.abs(this.dy)
-//             }
-//         }
-//         this.y = this.y+this.dy;
+        if(this.y + r >= window.innerHeight || this.y <= this.r){
+            // this.dy = -this.dy;
+            if(this.y <= this.r){
+                this.y = this.r+1;
+                this.dy = Math.abs(this.dy)
+            }
+            if(this.y + this.r >= window.innerHeight){
+                this.y = window.innerHeight - this.r - 1;
+                this.dy = - Math.abs(this.dy)
+            }
+        }
+        this.y = this.y+this.dy;
         
-//         let distance = Math.sqrt((this.x - mouse.x)**2 + (this.y - mouse.y)**2);
-//         if(distance < 50 ){
-//             if(this.r < 50){
-//                 this.r += 5;
-//             }
-//         }
-//         else{
-//             if(this.r > this.minR){
-//                 this.r -= 1;
-//             }
-//         } 
-//     }
-// }
+        let distance = Math.sqrt((this.x - mouse.x)**2 + (this.y - mouse.y)**2);
+        if(distance < 50 ){
+            if(this.r < 50){
+                this.r += 5;
+            }
+        }
+        else{
+            if(this.r > this.minR){
+                this.r -= 1;
+            }
+        } 
+    }
+}
 
-// var colors = ["black", "gray", "red", "yellow"]
-// var circles = [];
-// for(let i = 0; i<20; i++){
-//     let r = Math.floor(5+Math.random()*10)
-//     let x = r + Math.random() * (window.innerWidth - 2*r);
-//     let dx = 10 * (Math.random() - 0.5);
-//     let y = r + Math.random() * (window.innerWidth - 2*r);
-//     let dy = 10 * (Math.random() - 0.5);
-//     var color = colors[Math.floor(Math.random()*4)];
-//     circles.push(new Circle(x, y, r, dx, dy, color));
-// }
+var colors = ["black", "gray", "red", "yellow"]
+var circles = [];
+for(let i = 0; i<100; i++){
+    let r = Math.floor(5+Math.random()*10)
+    let x = r + Math.random() * (window.innerWidth - 2*r);
+    let dx = 10 * (Math.random() - 0.5);
+    let y = r + Math.random() * (window.innerWidth - 2*r);
+    let dy = 10 * (Math.random() - 0.5);
+    var color = colors[Math.floor(Math.random()*4)];
+    circles.push(new Circle(x, y, r, dx, dy, color));
+}
 
-// function animate(){
-//     c.clearRect(0,0,window.innerWidth, window.innerHeight);
-//     for(let circle of circles){
-//         circle.update();
-//         circle.draw();
-//     }
-//     requestAnimationFrame(animate);
-// }
-// console.log("hello");
-// animate();
+function animate(){
+    c.clearRect(0,0,window.innerWidth, window.innerHeight);
+    for(let circle of circles){
+        circle.update();
+        circle.draw();
+    }
+    requestAnimationFrame(animate);
+}
+console.log("hello");
+animate();
 
 
-// window.addEventListener('mousemove', function(event){
-//     mouse.x = event.clientX;
-//     mouse.y = event.clientY;
-// });
+window.addEventListener('mousemove', function(event){
+    mouse.x = event.clientX;
+    mouse.y = event.clientY;
+});
 
-// window.addEventListener('click', function(event){
-//     let r = Math.floor(5+Math.random()*10)
-//     let x = event.clientX;
-//     let dx = 10 * (Math.random() - 0.5);
-//     let y = event.clientY;
-//     let dy = 10 * (Math.random() - 0.5);
-//     var color = colors[Math.floor(Math.random()*4)];
-//     circles.push(new Circle(x, y, r, dx, dy, color));
-//     console.log(circles[0]);
-// })
+window.addEventListener('click', function(event){
+    let r = Math.floor(5+Math.random()*10)
+    let x = event.clientX;
+    let dx = 10 * (Math.random() - 0.5);
+    let y = event.clientY;
+    let dy = 10 * (Math.random() - 0.5);
+    var color = colors[Math.floor(Math.random()*4)];
+    circles.push(new Circle(x, y, r, dx, dy, color));
+    console.log(circles[0]);
+})
 
-// window.addEventListener('resize', function(event){
-//     canvas.width = window.innerWidth;
-//     canvas.height = window.innerHeight;
-// })
+window.addEventListener('resize', function(event){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+})

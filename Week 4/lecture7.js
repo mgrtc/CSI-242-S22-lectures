@@ -10,13 +10,13 @@
 //// 4 variable decelerations
 //// let is editable and "block scoped"
 // let i = 5; 
-//// const is uneditable and "block scoped"
+// //// const is uneditable and "block scoped"
 // const j = 7;
 // j = 7; //error
-//// var is  editable and "function scoped"
+// //// var is  editable and "function scoped"
 // var k = 10;
-//// untagged is editable and "lexically scoped" (subject of next lecture)
-// // f = 6;
+// //// untagged is editable and "lexically scoped" (subject of next lecture)
+// f = 6;
 // console.log(i,j,k);
 
 ////*******************
@@ -29,8 +29,8 @@
 //     console.log(i);
 // }
 // console.log(i); //error
-//
-// if(true}{
+
+// if(true){
 //     const j = 5;
 //     console.log(j);
 // }
@@ -46,6 +46,7 @@
 //     if(true){
 //         var l = 5;
 //     }
+//     console.log(l);
 // }
 // example();
 // console.log(l);
@@ -54,6 +55,7 @@
 // This is spooky, and we'll talk a lot more during the scope lecture on Thursday
 // function example(){
 //     o = 5;
+//     console.log(o);
 // }
 // example();
 // console.log(o);
@@ -87,7 +89,7 @@
 // c = {hello: "hello", hi: "hi"};
 // console.log("are they pointing at the same object?", a === b);
 // console.log("if initialized in same order are they converted to same string?", JSON.stringify(a) === JSON.stringify(b));
-// console.log("if initialized in different orders are they converted to same string?", JSON.stringify(a) === JSON.stringify(b));
+// console.log("if initialized in different orders are they converted to same string?", JSON.stringify(a) === JSON.stringify(c));
 
 //****************************Challenge*****************************
 //* find some way to take 2 objects and compare them for equality  *
@@ -115,8 +117,8 @@
 // for (var i in arr) {
 //     console.log(i); // indexes
 // }
-// for (var i of arr) {
-//     console.log(i); // values
+// for (var val of arr) {
+//     console.log(val); // values
 // }
 
 // var str = "hello friends";
@@ -127,12 +129,12 @@
 //     console.log("v:", v); // values
 // }
 
-// var obj = {val1: "hi", val2: "hello"};
+// var obj = { val2: "hello", val1: "hi"};
 // for (var i in obj) {
 //     console.log(i); // keys
 // }
-// for (var i of obj) { // doesn't work cause javascript is weird and dumb
-//     console.log(i);
+// for (var v of obj) { // doesn't work cause javascript is weird and dumb
+//     console.log(v);
 // }
 // for (var i in obj){ // you have to do this instead 
 //      console.log(obj[i]);   //values
@@ -150,30 +152,33 @@
 //     console.log(arr[index]);
 //     index++;
 // }
-
+// for (let index = 0; index < arr.length; index++) {
+//     myFunction(arr[i], i);
+// }
 // arr.forEach(myFunction);
-// function myFunction(item, index)
+
+// function myFunction(value, index)
 // {
-//     console.log(item);
+//     console.log(value);
 // }
 
 ////***************************
 //// Map, Reduce, Filter, Every
 ////***************************
 
-// const numbers = [9, 5, 2, 3, 1];
 
+// [4,0,-3,-2,-4]
 //**************************************************************
 // Map                                                         *
 // array1.map(func) => array2 where array2[i] = func(array1[i])*
 
 
 // function myMapper(num) {
-//     return num * 10;
+//     return num * num;
 // }
 // var mapped = numbers.map(myMapper);
 // console.log(mapped);
-// console.log(numbers === mapped);
+// console.log(numbers,mapped, numbers === mapped);
 
 //********************************************************************************************************
 // Reduce                                                                                                *
@@ -183,6 +188,13 @@
 //     console.log("t,n:",total, num)
 //     return total - num;
 // }
+
+// function myReducer(total, val) {
+//     console.log("t,n:",total, val)
+//     return val - total;
+// }
+
+
 // console.log(numbers.reduce(myReducer))
 
 //************************************************************************************************************
@@ -193,25 +205,33 @@
 //     return num >= 3;
 // }
 
-// console.log(numbers.filter(myFilter))
-// console.log([0,1,false,true,"","1",[]].filter((elem)=>{return elem}));
+// console.log(numbers.filter(myFilter));
+// console.log([0,1,2,false,true,undefined, null, "0","1", "2",[]].filter((elem)=>{return elem}));
 
 
-//*********************************************************************************************
-// Every                                                                                      *
-// array.every(func) = func(array[0]) && func(array[1]) && func(array[2]) ... & func(array[n])*
+//**********************************************************************************************
+// Every                                                                                       *
+// array.every(func) => func(array[0]) && func(array[1]) && func(array[2]) ... & func(array[n])*
+const numbers = [1,0,-1];
 
-// function myEvery(num){
-//     return num >= 0;
-// }
-// console.log(numbers.every(myEvery))
+function isPositive(num){
+    return num >= 0;
+}
+function isNegative(num){
+    return num < 0;
+}
+function isNumber(num){
+    return !isNaN(num)
+}
+console.log(!numbers.every(isNegative) && numbers.every(isNumber)); // == exists a positive
+
 
 //****************************Challenge******************************
 //*      Figure out and explain how this last function works        *
 //*******************************************************************
 
-function existsPositives(arr){
-    return !arr.every(num => num <= 0);
-}
+// function existsPositives(arr){
+//     return !arr.every(num => num <= 0);
+// }
 
-console.log(existsPositives([-1,-2,4]));
+// console.log(existsPositives([-1,-2,4]));
