@@ -28,7 +28,7 @@
 //     // works like querySelectorAll()
 //     // but is not quite the same thing as a list of DOM Elements, 
 //     // what we get is a "JQuery object": "S.fn.init"
-//     // These represent set of DOM Elements and you can batch process them (more on that in a minute)
+//     // These represent a set of DOM Elements and you can batch process them (more on that in a minute)
 //     // once in JQuery Land the only way out is .get()
 
 //     console.log($("h1").get())
@@ -95,7 +95,7 @@
 ////*******************************
 
 // vanilla JS: .getAttribute(attrName) and .setAttribute(attrName, newValue)
-// JQuery: .attr(attrName, newValue) with (second param optional)
+// JQuery: .attr(attrName, newValue) with second param optional
 
 // addEventListener("load",()=>{
 //     var $content = $("#content");
@@ -122,12 +122,12 @@
 //// Event Delegation
 ////*****************
 
-addEventListener("load",()=>{
-    var $content = $("#content");
-    $("#content").on("click", ".meme", function(evt) {
-        console.log("hi")
-        evt.target.remove();
-    });
-    $content.append($("<p>").addClass("meme").text("clickable"));
-});
+// addEventListener("load",()=>{
+//     var $content = $("#content");
+//     $("#content").on("click", ".meme", function(evt) {
+//         console.log("hi")
+//         evt.target.remove();
+//     });
+//     $content.append($("<p>").addClass("meme").text("clickable"));
+// });
   
