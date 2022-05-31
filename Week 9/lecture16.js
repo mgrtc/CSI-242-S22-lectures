@@ -22,7 +22,7 @@
 // Be explicitly self-closed: <input name="msg" />
 // Cannot leave off that / or will get syntax error
 
-// JSX must be have a single top element:
+// JSX must have a single top element:
 // const out = <b>Hi</b>;
 
 // They cannot have multiple top elements:
@@ -71,7 +71,7 @@ ReactDOM.render(<App />,
 // }
 
 // function Hello(props) {
-//     // props.to = "Alice"; //error
+//     // props.to = "Alice"; //error because props are consts
 //     return (
 //         <div>
 //             <p>Secret Message: </p>
@@ -96,7 +96,11 @@ ReactDOM.render(<App />,
 //********************
 // Destructuring Props
 
-// function Hello({ to, author="Big Brother" }) {
+// function Hello(
+//     { 
+//         to, 
+//         author="Big Brother" 
+//     }) {
 //     return <p>Hi { to } <br/> - { author }</p>;
 // }
 
@@ -156,13 +160,13 @@ ReactDOM.render(<App />,
 //// Loops in JSX
 ////*************
 
-function Messages({ msgs }) {
-    return (
-        <div>
-            { msgs.map(m => <p key={m} >{m}</p>) }
-        </div>
-    );
-}
+// function Messages({ msgs }) {
+//     return (
+//         <div>
+//             { msgs.map(m => <p key={m} >{m}</p>) }
+//         </div>
+//     );
+// }
 
 // function Messages({ msgs }) {
 //     var ret = [];
@@ -207,23 +211,23 @@ function Messages({ msgs }) {
 
 // pretty similar to html, but now style = a JS object instead of a string
 
-function Box({ favoriteColor, otherColor, message }) {
-    const myStyles = {
-      color: favoriteColor,
-      backgroundColor: otherColor,
-    };
+// function Box({ favoriteColor, otherColor, message }) {
+//     const myStyles = {
+//       color: favoriteColor,
+//       backgroundColor: otherColor,
+//     };
   
-    return <span style={myStyles}>{message}</span>;
-  }
+//     return <span style={myStyles}>{message}</span>;
+//   }
 
-function App() {
-    return (
-        <div>
-            <Box
-            favoriteColor = "blue"
-            otherColor = "gray"
-            message = "Hello World"
-            />
-        </div>
-    )
-}
+// function App() {
+//     return (
+//         <div>
+//             <Box
+//             favoriteColor = "blue"
+//             otherColor = "gray"
+//             message = "Hello World"
+//             />
+//         </div>
+//     )
+// }
