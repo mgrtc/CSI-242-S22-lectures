@@ -19,7 +19,7 @@
 
 addEventListener("load",()=>{
     
-    // window.start = function(){
+    // start = function(){
     //     console.log("start");
     // }
     // console.log("loaded");
@@ -80,54 +80,53 @@ addEventListener("load",()=>{
 // // useState returns a variable and a setter-function
 // // the two names can technically be anything, but varname and setVarname is conventional
 // // this initialization will only be run on the first render
+// // !! whenever the setter is called it will trigger a re-render of the associated component !!
 
-// // // Changing State on Timeout
+
+// Changing State on Timeout
 
 
 // function App() {
+//     console.log("app renders");
+//     const [greeting, setGreeting] = React.useState("Hello my pal");
+//     setTimeout(
+//         ()=>{
+//             console.log
+//             setGreeting("Hello my friend");
+//         },
+//         1000
+//     );
+//     return (
+//     <div>
+//         <p>
+//             {greeting}
+//         </p>
+//     </div>
+//     );
+// }
+
+// Changing State on event
+
+// function App() {
+//     console.log("app renders");
 //     function a(){
 //         setHovered(true);
 //     }
 //     function b(){
 //         setHovered(false);
 //     }
-//     console.log("app renders");
-//     const [greeting, setGreeting] = React.useState("Hello my pal");
 //     const [hovered, setHovered] = React.useState(false);
 //     const myStyles = {
 //         color: hovered ? "red" : "blue",
 //     };
-//     const [long, setLong] = React.useState(bigLongThing);
-//     setTimeout(
-//         ()=>{
-//             setGreeting("Hello my friend");
-//         },
-//         1000
-//     )
 //     return (
 //     <div>
 //         <p onMouseEnter={a} onMouseLeave={b} style={myStyles}>
 //             {greeting}
 //         </p>
-//         <p>
-//             {long}
-//         </p>
 //     </div>
 //     );
 // }
-
-// function bigLongThing(){
-//     var a = 0
-//     var ret = ""
-//     while(a < 100){
-//         ret += a;
-//         a++;
-//     }
-//     return ret;
-// }
-
-
-// //Interesting thing here, the setGreeting both changed the state and re-rendered the component
 
 
 // // Changing State with user Input
@@ -159,33 +158,34 @@ addEventListener("load",()=>{
 //     );
 // }
 
-function Child(props){
-    return(
-        <button onClick={() => {
-            var newVal = props.val.map((value, index)=>{
-                return index === props.i ? value +1 : value
-            })
-            props.setter(newVal);
-        }}>
-            {props.val[props.i]}
-        </button>
+// Turning the inner intractable objects into their own components.
 
-    )
-}
+// function Child(props){
+//     return(
+//         <button onClick={() => {
+//             var newVal = props.val.map((value, index)=>{
+//                 return index === props.i ? value +1 : value
+//             })
+//             props.setter(newVal);
+//         }}>
+//             {props.val[props.i]}
+//         </button>
 
-function App() {
-    var [ val, setVal] = React.useState([0,1])
-    return(
-        <div>
-            {val.map(
-                (num, i)=>{
-                    return(<Child key={i} setter={setVal} val={val} i={i} />)
-                }
-            )}
-        </div>
-    )
+//     )
+// }
 
-}
+// function App() {
+//     var [ val, setVal] = React.useState([0,1])
+//     return(
+//         <div>
+//             {val.map(
+//                 (num, i)=>{
+//                     return(<Child key={i} setter={setVal} val={val} i={i} />)
+//                 }
+//             )}
+//         </div>
+//     )
+// }
 
 // A components props are constant and unchangable unless they depend on a parent's state, and that state changes.
 
@@ -207,57 +207,58 @@ function App() {
 
 
 
-function App() {
-    console.log("app renders");
-    var [titles, setTitles] = React.useState(["pal", "friend", "dude", "colleague"]);
-    return (
-    <div>
-        <p>
-            Hello my {titles[0]}
-        </p>
-        {titles.map(
-            (title, i)=>{
-                return(
-                <button key={title+""+i} onClick={()=>{
-                    titles[0] = title;
-                    console.log(titles);
-                    // doesn't work
-                    setTitles(titles.map(val => val));
-                    // still doesn't work
-                    // What the heck???
-                    // It's because titles is a reference type and the reference hasn't changed
-                    // So setTitles thinks we haven't actually changed anything
+// function App() {
+//     console.log("app renders");
+//     var [titles, setTitles] = React.useState(["pal", "friend", "dude", "colleague"]);
+//     return (
+//     <div>
+//         <p>
+//             Hello my {titles[0]}
+//         </p>
+//         {titles.map(
+//             (title, i)=>{
+//                 return(
+//                 <button key={title+""+i} onClick={()=>{
+//                     titles[0] = title;
+//                     console.log(titles);
+//                     // doesn't work
+//                     setTitles(titles);
+//                     // still doesn't work
+//                     // What the heck???
+//                     // It's because titles is a reference type and the reference hasn't changed
+//                     // So setTitles thinks we haven't actually changed anything
 
-                }}>
-                    {title}
-                </button>)}
-        )}
-    </div>
-    );
-}
+//                 }}>
+//                     {title}
+//                 </button>)}
+//         )}
+//     </div>
+//     );
+// }
+
 
 
 // example with primitive type
 
-function App() {
-    console.log("app renders");
-    var [title, setTitle] = React.useState("pal");
-    return (
-    <div>
-        <p>
-            Hello my {title}
-        </p>
-        <button key={title} onClick={()=>{
-            title = "friend";
-            // doesn't work;
-            setTitle(title);
-            // now it works
-        }}>
-            friend
-        </button>
-    </div>
-    );
-}
+// function App() {
+//     console.log("app renders");
+//     var [title, setTitle] = React.useState("pal");
+//     return (
+//     <div>
+//         <p>
+//             Hello my {title}
+//         </p>
+//         <button key={title} onClick={()=>{
+//             title = "friend";
+//             // doesn't work;
+//             setTitle(title);
+//             // now it works
+//         }}>
+//             friend
+//         </button>
+//     </div>
+//     );
+// }
 
 
 // // making this work with reference types
