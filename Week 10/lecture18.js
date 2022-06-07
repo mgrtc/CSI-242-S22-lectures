@@ -18,7 +18,7 @@ addEventListener("load",()=>{
         
     //     function up1() { setNum(num + 1); }
 
-
+    //     //Wrong example
     //     function upN(n) {
     //         var a = 0;
     //         while(a < n){
@@ -27,18 +27,20 @@ addEventListener("load",()=>{
     //         }
     //     }
 
-    //     function upN(n) {
-    //         setNum(num+n);
-    //     }
 
-            
-    //     function upN(n) {
-    //         var a = 0;
-    //         while(a < n){
-    //             setNum((futureNum)=>{return futureNum+1}); //futureNum is the value of num when the setNUm get's evaluated
-    //             a++;
-    //         }
-    //     }
+    //     // Solution for this specific problem.
+    //     // function upN(n) {
+    //     //     setNum(num+n);
+    //     // }
+
+    //     // General solution w/ callback
+    //     // function upN(n) {
+    //     //     var a = 0;
+    //     //     while(a < n){
+    //     //         setNum((futureNum)=>{return futureNum+1}); //futureNum is the value of num when the setNUm get's evaluated
+    //     //         a++;
+    //     //     }
+    //     // }
 
     //     // [Event Queue] <-\
     //     // Eventlistener --/
@@ -87,8 +89,10 @@ addEventListener("load",()=>{
 
     
     // I'm gonna be honest, this is kinda dumb, idk it feels like a lot, and the documentation for this sucks
-//   }
 
+
+
+    //Passcode: hint cute snake
 
 //   // More better mapping, rotating the state array
 
@@ -107,7 +111,6 @@ addEventListener("load",()=>{
     //                     var rot = titles.indexOf(event.target.innerHTML);
     //                     titles = titles.map((val, i) => titles[(i + rot) % 4])
     //                     setTitles(titles);
-    //                     // now this works
     //                 }}>
     //                     {title}
     //                 </button>)}
@@ -118,30 +121,29 @@ addEventListener("load",()=>{
 
 //     // filtering
 
-    function App() {
-        console.log("app renders");
-        var [titles, setTitles] = React.useState(["pal", "friend", "dude", "colleague"]);
-        return (
-        <div>
-            <p>
-                Hello my {titles[0]}
-            </p>
-            {titles.map(
-                (title)=>{
-                    return(
-                    <button key={title} onClick={(event)=>{
-                        var lastChar = title.charAt(title.length - 1);
-                        titles = titles.filter((val) => val.charAt(val.length - 1) !== lastChar)
-                        setTitles(titles);
-                        console.log(titles)
-                        // now this works
-                    }}>
-                        {title}
-                    </button>)}
-            )}
-        </div>
-        );
-    }
+    // function App() {
+    //     console.log("app renders");
+    //     var [titles, setTitles] = React.useState(["pal", "friend", "dude", "colleague"]);
+    //     return (
+    //     <div>
+    //         <p>
+    //             Hello my {titles[0]}
+    //         </p>
+    //         {titles.map(
+    //             (title)=>{
+    //                 return(
+    //                 <button key={title} onClick={(event)=>{
+    //                     var lastChar = title.charAt(title.length - 1);
+    //                     titles = titles.filter((val) => val.charAt(val.length - 1) !== lastChar)
+    //                     setTitles(titles);
+    //                     console.log(titles)
+    //                 }}>
+    //                     {title}
+    //                 </button>)}
+    //         )}
+    //     </div>
+    //     );
+    // }
 
 //**************************************
 // Making stable keys
@@ -153,9 +155,9 @@ addEventListener("load",()=>{
 
     // function DiceButton(props){
     //     return( 
-    //         <button onClick={(event)=>{
-                
-    //             var updatedDice = props.dice.filter((die) => die.val !== props.die);
+    //         <button onClick={()=>{
+    //             var updatedDice = props.dice.filter((die) => die !== props.die);
+    //             // var updatedDice = props.dice.filter((die) => die.val !== props.die);
                 
     //             props.setDice(updatedDice);
     //         }}>
@@ -166,15 +168,15 @@ addEventListener("load",()=>{
     
     // function App() {
     //     console.log("app renders");
-    //     // var [dice, setDice] = React.useState([rollDice(),rollDice(),rollDice(),rollDice()]);
-    //     var [dice, setDice] = React.useState(
-    //         [
-    //             {val: rollDice(), id: uuid.v4()},
-    //             {val: rollDice(), id: uuid.v4()},
-    //             {val: rollDice(), id: uuid.v4()},
-    //             {val: rollDice(), id: uuid.v4()}
-    //         ]
-    //     );
+    //     var [dice, setDice] = React.useState([rollDice(),rollDice(),rollDice(),rollDice()]);
+    //     // var [dice, setDice] = React.useState(
+    //     //     [
+    //     //         {val: rollDice(), id: uuid.v4()},
+    //     //         {val: rollDice(), id: uuid.v4()},
+    //     //         {val: rollDice(), id: uuid.v4()},
+    //     //         {val: rollDice(), id: uuid.v4()}
+    //     //     ]
+    //     // );
     //     console.log("setup")
     //     return (
     //     <div>
@@ -187,12 +189,12 @@ addEventListener("load",()=>{
     //                     // console.log(key);
     //                     return(
     //                         <DiceButton 
-    //                             // key={i} // unstable
-    //                             // die = {die}
+    //                             die = {die}
+    //                             key={i} // unstable
     //                             // look at how the same button has different keys at different times / filters
     //                             // key={uuid.v4()} // still unstable
-    //                             key={die.id} // stable w/ lines 139 to 146 uncommented
-    //                             die={die.val} 
+    //                             // key={die.id} // stable w/ lines 172 to 179 uncommented
+    //                             // die={die.val}
     //                             setDice={setDice} 
     //                             dice = {dice}/>
     //                     )
@@ -203,6 +205,4 @@ addEventListener("load",()=>{
     //     </div>
     //     );
     // }
-
-
-//Passcode: hint cute snake
+});
