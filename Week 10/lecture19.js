@@ -4,6 +4,85 @@
 ////**********************************************************
 ////**********************************************************
 
+/*
+
+React so Far:
+
+**********
+Components
+**********
+
+Components are functions that are called as jsx tags 
+
+function App(props) is called via <App className="hi" />
+
+*****
+Props
+*****
+
+The inputs to the component functions are called props
+There are two ways to get at them from inside the function
+
+function App(props){
+    console.log(props.val);
+}
+
+or
+
+function App({val, hey, ...props}){
+    console.log(val);
+    console.log(props);
+}
+
+Example: plug this into console
+    function hey({a, b, ...props}){
+        console.log(props);
+    }
+    hey({a: "hi", b: "sup", c: "yo", d: "wow"})
+
+props are always consts
+
+*****
+State
+*****
+
+Props are constant and associate with a single render of a single component.
+But our page isn't constant and needs to have a state that flows between renders.
+
+So we introduce State.
+State's are initialize using the useState hook/function
+[val, setVal] = useState(initialVal);
+
+This useState will only be called during the components initial render
+It returns a variable val which can be used to change the state, but shouldn't be
+And it returns a function setVal which can be called to change the state and
+trigger a rerender. 
+
+The rerender will only happen if the new val is different from the old val.
+Notably this means that if the state is an array and the new state is
+that same array but some of the values inside have changed this will not
+trigger a reRender. This is why .map is used
+
+On consideration this is a dumb way of doing things with massive overhead.
+I think we'd probably be better off just modifying the variable and then
+having a rerender state that we toggle every time we want a rerender?
+
+But convention is convention.
+
+***********
+Key and IDs
+***********
+
+When you have a procedurally generated array of components you need to
+give them keys or React will freak out at you. Having duplicate keys will
+make React freak out even harder. The best way to do this is to associate 
+unique ids with each of the state objects that correspond to the component.
+
+[{val: "hi", id: uuid.v4()},{val: "sup", id: uuid.v4()}]
+
+
+*/
+
 console.log("hi");
 addEventListener("load",()=>{
     ReactDOM.render(<App />,
@@ -13,111 +92,118 @@ addEventListener("load",()=>{
 // Component Design
 //*****************
 
-function sum(array){
-    var ret = 0;
-    for (let i = 0; i < array.length; i++) {
-        ret += array[i];
-    }
-    return ret;
-}
-
-function getRolls(numDice){
-    //returns an array of random numbers between 1 and 6 that is numDice long
-    var ret = [];
-    for(var i = 1; i <= numDice; i++){
-        console.log("getRolls",i);
-        ret.push(Math.floor(Math.random() * (6) + 1));
-    }
-    return ret;
-}
-
-function Die({ val }) {
-    var dieStyle = {
-        padding: "25px",  
-        backgroundColor: "tomato",  
-        width: "50px",  
-        height: "50px",  
-        borderRadius: "10%",
-        fontSize: "50px",
-        textAlign: "center",
-        color: "white",
-        margin: "2px"
-    }
-    return (
-        <div style={dieStyle} className="Die">
-            {val}
-        </div>
-    );
-}
-
-
-function Dice({ dice }) {
-    return (
-        <div className="Dice">
-            {
-            dice.map(
-                (val, i) => {
-                    return <Die key={i} val={val} />
-                }
-            )
-            }
-        </div>
-    );
-}
+//Design Principles
+// * Lift state as high as needed but no higher *
+// * Try to Separate logical and presentational components *
+// * Separate out utilities, ideally into their own file.
 
 
 
-function LuckyN({ numDice, goal }) {
+// // *********
+// // Utilities
+// // *********
+
+// function sum(array){
+//     var ret = 0;
+//     for (let i = 0; i < array.length; i++) {
+//         ret += array[i];
+//     }
+//     return ret;
+// }
+
+// function getRolls(numDice){
+//     //returns an array of random numbers between 1 and 6 that is numDice long
+//     var ret = [];
+//     for(var i = 1; i <= numDice; i++){
+//         console.log("getRolls",i);
+//         ret.push(Math.floor(Math.random() * (6) + 1));
+//     }
+//     return ret;
+// }
+
+// function getIDs(num){
+//     //returns an array of with num random id strings
+//     var ret = [];
+//     for(var i = 1; i <= num; i++){
+//         ret.push(uuid.v4());
+//     }
+//     return ret;
+// }
+
+// // ******************
+// // Display Components
+// // ******************
+
+// function Die({ val }) {
+//     var dieStyle = {
+//         padding: "25px",  
+//         backgroundColor: "tomato",  
+//         width: "50px",  
+//         height: "50px",  
+//         borderRadius: "10%",
+//         fontSize: "50px",
+//         textAlign: "center",
+//         color: "white",
+//         margin: "2px"
+//     }
+//     return (
+//         <div style={dieStyle} className="Die">
+//             {val}
+//         </div>
+//     );
+// }
 
 
-//     // var [val, setVal] = React.useState(7); // initialize the state variable, which we only want to do the first time
-//     // // var valStateArray = React.useState(7);
-//     // // var val = valStateArray[0];
-//     // // var setVal = valStateArray[1];
-//     // console.log(val);
-//     // // if(val !== 12){
-//     // setVal(12); // asyncronous, setTimeout(setVal(12), 0)
-//     // // }
-//     // console.log(val);
-//     // return(
-//     //     <p>hi</p>
-//     // );
+// function Dice({ dice, ids }) {
+//     return (
+//         <div className="Dice">
+//             {
+//             dice.map(
+//                 (val, i) => {
+//                     return <Die key={ids[i]} val={val} />
+//                 }
+//             )
+//             }
+//         </div>
+//     );
+// }
 
 
-    const [dice, setDice] = React.useState(getRolls(numDice));
-    const won = sum(dice) === goal;
+// // ******************
+// // Logical Components
+// // ******************
+
+// function LuckyN({ numDice, goal }) {
+
+//     const [dice, setDice] = React.useState(getRolls(numDice));
+//     const [ids] = React.useState(getIDs(numDice));
+//     const won = sum(dice) === goal;
+    
+//     console.log
+//     function roll() { setDice(getRolls(numDice)); }
   
-    function roll() { setDice(getRolls(numDice)); }
-  
-    return (
-        <main className="LuckyN">
-            <h1>Lucky{goal}: { won ? "You won!" : "You Lose"}</h1>
-            <Dice dice={dice} />
-            <button onClick={roll}>
-                Roll Again!
-            </button>
-        </main>
-    );
-}
+//     return (
+//         <main className="LuckyN">
+//             <h1>Lucky{goal}: { won ? "You won!" : "You Lose"}</h1>
+//             <Dice dice={dice} ids={ids}/>
+//             <button onClick={roll}>
+//                 Roll Again!
+//             </button>
+//         </main>
+//     );
+// }
 
-function App() {
-    // var [dice, setDice] = React.useState(getRolls(2));
-    // var won = (sum(dice) === 7);
-    return (
-      <div className="App">
-          {/* <h1>Lucky7: You {won ? "Won" : "Lost"}</h1>
-          <Dice dice={dice} />
-          <button onClick={
-                function(){
-                    dice = setDice(getRolls(2));
-                }
-          }>
-              Roll Again!
-          </button> */}
-        <LuckyN numDice={3} goal={10}/>
-      </div>
-    );
-}
+// // *******
+// // * App *
+// // *******
+
+// function App() {
+//     return (
+//       <div className="App">
+//         <LuckyN numDice={2} goal={7}/>
+//       </div>
+//     );
+// }
 
 //Design Principles
 // * Lift state as high as needed but no higher *
@@ -130,12 +216,12 @@ function App() {
 //     /    \
 //   [Die] [Die]
 // * Try to Separate logical and presentational components *
-//   - We use LuckyN and App here for our logic, with Dice and particularly Die
-//     focused on presentation
-// * Put utilities in their own file. In our case that would be getRolls and sum
-//   should be in their own utils.js file
+//   - We use LuckyN and kinda App here for our logic, with Dice and 
+//     particularly Die focused on presentation.
+// * Put utilities in their own file. In our case that would be getRolls, getIDs, and sum
+//   should be in their own utils.js file.
 //   - One reason for that is that once they are in their own file they can be unit tested
-//   - And then mocked for our testing of the components
+//   - And then mocked for our testing of the components.
 
 
 //*****************************
