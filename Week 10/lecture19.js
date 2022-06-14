@@ -14,7 +14,7 @@ Components
 
 Components are functions that are called as jsx tags 
 
-function App(props) is called via <App className="hi" />
+function App(props) is called via <App className="hi" val={6} />
 
 *****
 Props
@@ -52,6 +52,13 @@ But our page isn't constant and needs to have a state that flows between renders
 So we introduce State.
 State's are initialize using the useState hook/function
 [val, setVal] = useState(initialVal);
+
+var [val, setVal] = useState([]);
+const [rend, setRend] = useState(0);
+
+val.push(0);
+setRend((rend + 1) % 2); //only triggers rerender if key !== "ooooo"
+
 
 This useState will only be called during the components initial render
 It returns a variable val which can be used to change the state, but shouldn't be
@@ -95,7 +102,7 @@ addEventListener("load",()=>{
 //Design Principles
 // * Lift state as high as needed but no higher *
 // * Try to Separate logical and presentational components *
-// * Separate out utilities, ideally into their own file.
+// * Separate out utilities, ideally into their own file. *
 
 
 
@@ -103,107 +110,149 @@ addEventListener("load",()=>{
 // // Utilities
 // // *********
 
-// function sum(array){
-//     var ret = 0;
-//     for (let i = 0; i < array.length; i++) {
-//         ret += array[i];
-//     }
-//     return ret;
-// }
+function sum(array){
+    var ret = 0;
+    for (let i = 0; i < array.length; i++) {
+        ret += array[i];
+    }
+    return ret;
+}
 
-// function getRolls(numDice){
-//     //returns an array of random numbers between 1 and 6 that is numDice long
-//     var ret = [];
-//     for(var i = 1; i <= numDice; i++){
-//         console.log("getRolls",i);
-//         ret.push(Math.floor(Math.random() * (6) + 1));
-//     }
-//     return ret;
-// }
+function getRolls(numDice){
+    //returns an array of random numbers between 1 and 6 that is numDice long
+    var ret = [];
+    for(var i = 1; i <= numDice; i++){
+        console.log("getRolls",i);
+        ret.push(Math.floor(Math.random() * (6) + 1));
+    }
+    return ret;
+}
 
-// function getIDs(num){
-//     //returns an array of with num random id strings
-//     var ret = [];
-//     for(var i = 1; i <= num; i++){
-//         ret.push(uuid.v4());
-//     }
-//     return ret;
-// }
+function getIDs(num){
+    //returns an array of with num random id strings
+    var ret = [];
+    for(var i = 1; i <= num; i++){
+        ret.push(uuid.v4());
+    }
+    return ret;
+}
 
-// // ******************
-// // Display Components
-// // ******************
+function rolledEvens(dice){
+    return (sum(dice) % 2 === 0)
+}
 
-// function Die({ val }) {
-//     var dieStyle = {
-//         padding: "25px",  
-//         backgroundColor: "tomato",  
-//         width: "50px",  
-//         height: "50px",  
-//         borderRadius: "10%",
-//         fontSize: "50px",
-//         textAlign: "center",
-//         color: "white",
-//         margin: "2px"
-//     }
-//     return (
-//         <div style={dieStyle} className="Die">
-//             {val}
-//         </div>
-//     );
-// }
+function allOnes(dice){
+    return sum(dice) === dice.length;
+}
+
+// ******
+// Styles
+// ******
 
 
-// function Dice({ dice, ids }) {
-//     return (
-//         <div className="Dice">
-//             {
-//             dice.map(
-//                 (val, i) => {
-//                     return <Die key={ids[i]} val={val} />
-//                 }
-//             )
-//             }
-//         </div>
-//     );
-// }
+// ******************
+// Display Components
+// ******************
 
 
-// // ******************
-// // Logical Components
-// // ******************
 
-// function LuckyN({ numDice, goal }) {
 
-//     const [dice, setDice] = React.useState(getRolls(numDice));
-//     const [ids] = React.useState(getIDs(numDice));
-//     const won = sum(dice) === goal;
-    
-//     console.log
-//     function roll() { setDice(getRolls(numDice)); }
+function Die({ val, reRoll }) {
+    var dieStyle = {
+        padding: "25px",  
+        backgroundColor: "tomato",  
+        width: "50px",  
+        height: "50px",  
+        borderRadius: "10%",
+        fontSize: "50px",
+        textAlign: "center",
+        color: "white",
+        margin: "2px"
+    }
+    return (
+        <div 
+            style={dieStyle} 
+            className="Die"
+            onClick={reRoll}
+        >
+            {val}
+        </div>
+    );
+}
+
+
+function Title({val}){
+    return(
+        <h1>{val}</h1>
+    )
+}
+
+function Button({val, handleClick}){
+    return(
+    <button onClick={handleClick}>
+        {val}
+    </button>
+    )
+}
+
+
+// ******************
+// Logical Components
+// ******************
+
+function Dice({ dice, ids, setDice }) {
+    return (
+        <div className="Dice">
+            {
+            dice.map(
+                (val, i) => {
+                    return (
+                        <Die 
+                            key={ids[i]} 
+                            val={val}
+                            reRoll={()=>{
+                                console.log("hi");
+                                dice[i] = Math.floor(Math.random() * (6) + 1);
+                                setDice(dice.map(val=>val));
+                            }}
+                        />
+                    )
+                }
+            )
+            }
+        </div>
+    );
+}
+
+function LuckyN({ numDice, goal, title, ids }) {
+
+    const [dice, setDice] = React.useState(getRolls(numDice));
+    const won = goal(dice);
+
+    function roll() { setDice(getRolls(numDice)); }
   
-//     return (
-//         <main className="LuckyN">
-//             <h1>Lucky{goal}: { won ? "You won!" : "You Lose"}</h1>
-//             <Dice dice={dice} ids={ids}/>
-//             <button onClick={roll}>
-//                 Roll Again!
-//             </button>
-//         </main>
-//     );
-// }
+    return (
+        <main className="LuckyN">
+            <Title val={`${title}: ${ won ? "You won!" : "You Lose"}`} />
+            <Dice dice={dice} ids={ids} setDice={setDice}/>
+            <Button val ="Roll Again" handleClick ={roll} />
+        </main>
+    );
+}
 
-// // *******
-// // * App *
-// // *******
+// *******
+// * App *
+// *******
 
-// function App() {
-//     return (
-//       <div className="App">
-//         <LuckyN numDice={2} goal={7}/>
-//       </div>
-//     );
-// }
+function App() {
+    var numDice = 3;
+    var ids = getIDs(numDice);
+    return (
+      <div className="App">
+        <LuckyN numDice={3} goal={allOnes} title="All Ones" ids={ids}/>
+      </div>
+    );
+}
 
 //Design Principles
 // * Lift state as high as needed but no higher *
@@ -412,6 +461,7 @@ addEventListener("load",()=>{
 // * List components should be based off of State and have uuid keys
 //   - Those keys should be set during the useState initialization and 
 //     the keys should stay associated with the same value / Component
+//   -Or even better be props at a layer above where the state is inited
 // * Components should be small and do one generic thing
 //   - Their specific behavior should be set by props
 //   - This makes them reusable and less likely to break
@@ -423,7 +473,7 @@ addEventListener("load",()=>{
 //   - Generally logical components will have more for loops, helper functions,
 //     computation, and state associated with them. They often also will have 
 //     several different component children.
-// * Generally you want to have useState and wrapper functions for seState
+// * Generally you want to have useState and wrapper functions for setState
 //   defined in a logical component and then passed down those wrapper functions 
 //   into their child/presentational components as props.
 // * try to minimize the amount of stuff you are storing in State

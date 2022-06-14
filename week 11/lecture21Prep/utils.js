@@ -23,44 +23,48 @@ function shiftLeft(row,i, allowed){
 function handleRowLeft(row){
     row = duplicate(row);
     var allowed = 0;
-    // console.log("HRL:",row);
     for(var i = 0; i < row.length; i++){
         if(row[i] !== 0){
             allowed = shiftLeft(row,i,allowed)
         }
-        // console.log("HRL:",row,i,allowed)
     }
-    // console.log("HRL ret:",row);
     return row;
 }
 
 function handleBoardLeft(board){
+    console.log("HBL", board[3][3]);
     for(var i = 0; i < board.length; i++){
-        // console.log("HBL:",board[i],handleRowLeft(board[i]));
         board[i] = handleRowLeft(board[i]);
     }
+    console.log("HBL", board[3][3]);
     return duplicate(board);
 }
 
 function handleBoardRight(board){
+    console.log("HBR", board[3][3]);
     board = flipBoard(board);
     board = handleBoardLeft(board);
     board = flipBoard(board);
+    console.log("HBR", board[3][3]);
     return duplicate(board);
 }
 
 function handleBoardUp(board){
+    console.log("HBU", board[3][3]);
     board = rowsToCols(board);
     board = handleBoardLeft(board);
     board = rowsToCols(board);
+    console.log("HBU", board[3][3]);
     return duplicate(board);
 }
 function handleBoardDown(board){
+    console.log("HBD", board[3][3]);
     board = rowsToCols(board);
     board = flipBoard(board);
     board = handleBoardLeft(board);
     board = flipBoard(board);
     board = rowsToCols(board);
+    console.log("HBD", board[3][3]);
     return duplicate(board);
 }
 
@@ -102,7 +106,10 @@ function randInt(min, max){
 }
 
 function dropRandom(board,num){
-    board = duplicate(board);
+    if(num === 1){
+        console.log(board[3][3]);
+    }
+    var board = duplicate(board);
     var dropped = 0;
     var size = board.length;
     while(dropped < num){
@@ -112,6 +119,9 @@ function dropRandom(board,num){
             board[x][y] = 2 * randInt(1,2);
             dropped++;
         }
+    }
+    if(num === 1){
+        console.log(board[3][3]);
     }
     return board;
 }
